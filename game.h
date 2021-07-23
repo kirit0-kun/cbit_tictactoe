@@ -8,7 +8,7 @@
 #include "bit_utils.h"
 #include "utils.h"
 
-#define LEN 14
+#define LEN 24
 #define ROWS LEN
 #define COLS LEN
 #define CELL_SIZE 2
@@ -25,7 +25,7 @@ void destroy_board(Board* board);
 void set_cell(Board* board, int cell, int value);
 uint8_t get_cell(Board* board, int cell);
 uint8_t get_winner(Board* board);
-uint8_t get_board_size(Board* board);
+uint64_t get_board_size(Board* board);
 int get_player_name(int player, char* output);
 int get_move(int player);
 void print_board(Board* board);

@@ -11,6 +11,9 @@ OBJS = $(SRCS:.c=.o)
 all: $(TARGET)
 	./${TARGET}
 
+leaks: $(TARGET)
+	./${TARGET}
+	
 %.o: %.c %.h
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 	$(CC) $(CFLAGS) $(INC) -S $^

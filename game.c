@@ -30,17 +30,15 @@ uint8_t get_cell(Board* board, int cell) {
     return get_bits(board, cell-1, CELL_SIZE);
 }
 
-uint8_t get_board_size(Board* board) {
+uint64_t get_board_size(Board* board) {
     return BOARD_SIZE;
 }
 
 uint8_t get_winner(Board* board) {
     const int c = ROWS + COLS + 2;
-    struct Cells {
-        uint64_t data: c * CELL_SIZE;
-    } cells;
-    cells.data = 0;
-    memset(&cells, UINT8_MAX, sizeof(cells));
+    const int size = c * CELL_SIZE / BITS_IN_BYTE;
+    uint8_t cells[size];
+    memset(&cells, UINT8_MAX, size);
     int ldIndex = ROWS + COLS;
     int rdIndex = ldIndex + 1;
     for (int row = 0; row < ROWS; row++) {

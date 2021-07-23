@@ -11,8 +11,8 @@ int main(int argc, char const *argv[]) {
     char * error = "";
     while (1)
     {
-        //print_bits(board, get_board_size(board)*BITS_IN_BYTE);
         print_board(board);
+        //print_bits(board, get_board_size(board)*CELL_SIZE);
         printf("%s", error);
         int index = get_move(player);
         if (index <= 0 || index > get_board_size(board)) {

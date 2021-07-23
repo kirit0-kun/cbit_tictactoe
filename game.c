@@ -1,19 +1,19 @@
 #include "game.h"
 
 #define NAME_BUF_SIZE 20
-#define MOVE_BUF_SIZE 4
+#define MOVE_BUF_SIZE 10
 
 const int BOARD_SIZE = ROWS * COLS;
 
 const int BOARD_SIZE_BITS = BOARD_SIZE * CELL_SIZE;
 
 typedef struct Board{
-    void* data;
+    uint8_t data[0];
 } Board;
 
 Board* create_board() {
-    uint8_t size = BOARD_SIZE_BITS/sizeof(uint8_t);
-    Board* board = malloc(size);
+    uint8_t size = ceil(BOARD_SIZE_BITS/BITS_IN_BYTE)+1;
+    Board* board = malloc(size * sizeof(uint8_t));
     memset(board, 0, size);
     return board;
 }

@@ -8,7 +8,7 @@
 #include "bit_utils.h"
 #include "utils.h"
 
-#define LEN 24
+#define LEN 34
 #define ROWS LEN
 #define COLS LEN
 #define CELL_SIZE 2

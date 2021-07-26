@@ -3,26 +3,35 @@ CC=gcc
 CFLAGS=-g -Wall
 
 LIBS=-lc
-INC=-I.
+INC=-I. -Iheaders
 
-SRCS=main.c bit_utils.c game.c
-OBJS = $(SRCS:.c=.o)
+SRCDIR= src
+BUILDDIR= build
 
-all: $(TARGET)
-	./${TARGET}
+SRCS=$(SRCDIR)/main.c $(SRCDIR)/bit_utils.c $(SRCDIR)/game.c
 
-leaks: $(TARGET)
-	./${TARGET}
-	
-%.o: %.c %.h
+OBJS = $(patsubst %, $(BUILDDIR)/%, $(notdir $(SRCS:.c=.o)))
+
+all: buildFiles
+	./$(BUILDDIR)/${TARGET}
+
+leaks: buildFiles
+	./$(BUILDDIR)/${TARGET}
+
+buildFiles: $(BUILDDIR) $(TARGET)
+
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
-	$(CC) $(CFLAGS) $(INC) -S $^
+	$(CC) $(CFLAGS) $(INC) -S $< -o $(@:.o=.s)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^
+	$(CC) $(CFLAGS) $(LIBS) -o $(BUILDDIR)/$@ $^
+
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
 
 clean:
-	rm -f -r *.o $(TARGET) *.s *.h.gch *.dSYM
+	rm -f -r *.o $(TARGET) *.s *.h.gch *.dSYM $(BUILDDIR)
 
 clear: clean
 	clear

@@ -2,14 +2,17 @@ TARGET=tictactoe
 CC=gcc
 CFLAGS=-g -Wall
 
-LIBS=-lc
-INC=-I. -Iheaders
-
+BASE_LIBS_LOC=.
+BASE_LIBS=c
+BASE_INC=. headers
 SRCDIR= src
 BUILDDIR= build
+BASE_SRCS=main.c bit_utils.c game.c
 
-SRCS=$(SRCDIR)/main.c $(SRCDIR)/bit_utils.c $(SRCDIR)/game.c
-
+INC=$(patsubst %, -I%, $(BASE_INC))
+LIBS_LOC=$(patsubst %, -L%, $(BASE_LIBS_LOC))
+LIBS=$(patsubst %, -l%, $(BASE_LIBS))
+SRCS=$(patsubst %, $(SRCDIR)/%, $(BASE_SRCS))
 OBJS = $(patsubst %, $(BUILDDIR)/%, $(notdir $(SRCS:.c=.o)))
 
 all: buildFiles
@@ -25,7 +28,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INC) -S $< -o $(@:.o=.s)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(LIBS) -o $(BUILDDIR)/$@ $^
+	$(CC) $(CFLAGS) $(LIBS_LOC) $(LIBS) -o $(BUILDDIR)/$@ $^
 
 $(BUILDDIR):
 	mkdir -p $(BUILDDIR)
